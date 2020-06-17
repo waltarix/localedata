@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    tags: ['*.*.*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build
+      run: make -j
+
+    - name: Archive files
+      run: |
+        xz -9 UTF-8
+        tar -Jcvf unicode.tar.xz unicode
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: '*.xz'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
