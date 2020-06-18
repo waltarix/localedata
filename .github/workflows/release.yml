@@ -12,6 +12,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+
+    - name: Setup Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.7'
+
     - name: Build
       run: make -j
 
@@ -23,6 +33,10 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        files: '*.xz'
+        files: |
+          *.xz
+          runewidth_table.go
+          tables.rs
+          wcwidth9.h
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
