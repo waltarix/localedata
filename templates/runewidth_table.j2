@@ -1,0 +1,9 @@
+package runewidth
+
+var wcwidth9_table_length = {{ length }}
+
+var wcwidth9_table = table {
+{%- for r in ranges %}
+  {{ r }}{{ "," -}}
+{% endfor %}
+}

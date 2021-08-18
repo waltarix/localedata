@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "localedata"
+version = "0.1.0"
+description = ""
+authors = ["nobody <nobody@nowhere>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+Jinja2 = "^3.0.1"
+
+[tool.poetry.dev-dependencies]
+yapf = "^0.31.0"
+isort = "^5.9.3"
+pytest = "^6.2.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = "-rA"
+testpaths = ["tests"]
+
+[tool.yapf]
+based_on_style = "pep8"
+dedent_closing_brackets = true
+coalesce_brackets = true
+blank_line_before_nested_class_or_def = true
+column_limit = 120
+
+[tool.isort]
+combine_as_imports = true

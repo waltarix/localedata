@@ -15,26 +15,33 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.7'
+        python-version: '3.9'
 
-    - name: Setup Ruby
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: '2.7'
+    - name: Setup poetry
+      run: |
+        wget -qO- ${GET_POETRY_URI} | python3 - --no-modify-path
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      env:
+        GET_POETRY_URI: https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+
+    - name: Setup GNU Make >= 4.3
+      run: brew install make
+
+    - name: poetry install
+      run: poetry install --no-dev
 
     - name: Build
       run: make -j
 
-    - name: Archive files
-      run: |
-        xz -9 UTF-8
-        tar -Jcvf unicode.tar.xz unicode
+    - name: Compress UTF-8
+      run: xz -9 UTF-8
 
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          *.xz
+          EastAsianWidth.generated.txt
+          UTF-8.xz
           runewidth_table.go
           tables.rs
           wcwidth9.h

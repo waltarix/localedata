@@ -1,7 +1,14 @@
 /unicode
 
+/utf8_gen.py
+/unicode_utils.py
+
 /EastAsianWidth.generated.txt
 /UTF-8
 /wcwidth9.h
 /runewidth_table.go
 /tables.rs
+
+/.cache
+
+__pycache__
