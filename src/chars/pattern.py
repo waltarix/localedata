@@ -12,8 +12,10 @@ PATTERN = re.compile(
         (?P<width_prop>[^ ]+)
         \s+
         \#
-        \ (?P<data_prop>[^ ]+)
-        \ (?:\s*\[\d+\])?
+        (?:
+          \ (?P<data_prop>[^ ]+)
+          \ (?:\s*\[\d+\])?
+        )?
         \s+
         (?P<comment>.+)
     ''',

@@ -12,7 +12,7 @@ class CodeRanges():
 
     @classmethod
     def from_range_of_code(cls, ranges_of_code: list[RangeOfCode]) -> CodeRanges:
-        code_ranges = map(lambda roc: CodeRange.from_range_of_code(roc), ranges_of_code)
+        code_ranges = map(lambda roc: CodeRange.from_range_of_code(roc), sorted(ranges_of_code))
         return cls(list(code_ranges))
 
     def __init__(self, code_ranges: list[CodeRange]) -> None:

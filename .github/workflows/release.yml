@@ -2,7 +2,9 @@ name: Release
 
 on:
   push:
-    tags: ['*.*.*']
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-r[0-9]+'
 
 jobs:
   build:
@@ -15,14 +17,15 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.9'
+        python-version: '3.10'
 
     - name: Setup poetry
       run: |
-        wget -qO- ${GET_POETRY_URI} | python3 - --no-modify-path
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-      env:
-        GET_POETRY_URI: https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+        curl -sL https://install.python-poetry.org | python3
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Configure poetry
+      run: poetry config virtualenvs.in-project true
 
     - name: Setup GNU Make >= 4.3
       run: brew install make
@@ -34,16 +37,11 @@ jobs:
       run: make -j
 
     - name: Compress UTF-8
-      run: xz -9 UTF-8
+      run: xz -9 dist/UTF-8
 
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          EastAsianWidth.generated.txt
-          UTF-8.xz
-          runewidth_table.go
-          tables.rs
-          wcwidth9.h
+        files: dist/*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

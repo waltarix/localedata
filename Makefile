@@ -1,61 +1,69 @@
+PYTHON := poetry run python
+CURL   := curl --progress-bar -L
+
+BUILD_DIR := build
+DIST_DIR  := dist
+
 UNICODE_VERSION   := 14.0.0
 DOWNLOAD_URL_BASE := https://unicode.org/Public/$(UNICODE_VERSION)/ucd
 
-DATA_FILES    := $(addprefix unicode/, UnicodeData.txt EastAsianWidth.txt PropList.txt)
-EMOJI_FILE    := unicode/emoji-data.txt
+UNICODE_DIR   := unicode
+DATA_FILES    := $(addprefix $(UNICODE_DIR)/, UnicodeData.txt EastAsianWidth.txt PropList.txt)
+EMOJI_FILE    := $(UNICODE_DIR)/emoji-data.txt
 UNICODE_FILES := $(DATA_FILES) $(EMOJI_FILE)
 
 GLIBC_VERSION        := 2.34
 UNICODE_GEN_URL_BASE := https://raw.githubusercontent.com/bminor/glibc/glibc-$(GLIBC_VERSION)/localedata/unicode-gen
-UNICODE_GEN_FILES    := utf8_gen.py unicode_utils.py
+UNICODE_GEN_FILES    := $(addprefix $(BUILD_DIR)/,utf8_gen.py unicode_utils.py)
 
-GENERATED_EAW_FILE := EastAsianWidth.generated.txt
-
-PYTHON := poetry run python
-CURL   := curl --progress-bar -L
+GENERATED_EAW_FILE := $(DIST_DIR)/EastAsianWidth.txt
+TARGET_FILES       := $(addprefix $(DIST_DIR)/,UTF-8 wcwidth9.h runewidth_table.go tables.rs) $(GENERATED_EAW_FILE)
 
 CACHE_FILES := $(addprefix .cache/, eaw.pickle wcwidth9.pickle)
 
-all: UTF-8 wcwidth9.h runewidth_table.go tables.rs
+all: $(TARGET_FILES)
 
-UTF-8: $(UNICODE_FILES) $(GENERATED_EAW_FILE) $(UNICODE_GEN_FILES)
-	$(PYTHON) -B utf8_gen.py \
-		-u unicode/UnicodeData.txt \
+$(TARGET_FILES): | $(DIST_DIR)
+
+$(DIST_DIR)/UTF-8: $(UNICODE_FILES) $(GENERATED_EAW_FILE) $(UNICODE_GEN_FILES)
+	$(PYTHON) -B $(BUILD_DIR)/utf8_gen.py \
+		-u $(UNICODE_DIR)/UnicodeData.txt \
 		-e $(GENERATED_EAW_FILE) \
-		-p unicode/PropList.txt \
+		-p $(UNICODE_DIR)/PropList.txt \
 		--unicode_version $(UNICODE_VERSION)
+	mv $(@F) $@
 
-wcwidth9.h: $(UNICODE_FILES) $(CACHE_FILES)
+$(DIST_DIR)/wcwidth9.h: $(UNICODE_FILES) $(CACHE_FILES)
 	$(PYTHON) src/generate/wcwidth9_h > $@
 
-runewidth_table.go: $(UNICODE_FILES) $(CACHE_FILES)
+$(DIST_DIR)/runewidth_table.go: $(UNICODE_FILES) $(CACHE_FILES)
 	$(PYTHON) src/generate/runewidth_table_go > $@
 
-tables.rs: $(UNICODE_FILES) $(CACHE_FILES)
+$(DIST_DIR)/tables.rs: $(UNICODE_FILES) $(CACHE_FILES)
 	$(PYTHON) src/generate/tables_rs > $@
 
-unicode:
-	mkdir -p $@
-
-$(DATA_FILES): | unicode
+$(DATA_FILES):
 	$(CURL) -o $@ $(DOWNLOAD_URL_BASE)/$(notdir $@)
 
-$(EMOJI_FILE): | unicode
+$(EMOJI_FILE):
 	$(CURL) -o $@ $(DOWNLOAD_URL_BASE)/emoji/$(notdir $@)
 
-$(UNICODE_GEN_FILES):
-	$(CURL) -o $@ $(UNICODE_GEN_URL_BASE)/$@
+$(UNICODE_GEN_FILES): | $(BUILD_DIR)
+	$(CURL) -o $@ $(UNICODE_GEN_URL_BASE)/$(@F)
 
-$(GENERATED_EAW_FILE): $(DATA_FILES) $(CACHE_FILES)
+$(GENERATED_EAW_FILE): $(DATA_FILES) $(CACHE_FILES) | $(BUILD_DIR)
 	$(PYTHON) src/generate/east_asian_width_txt > $@
+
+$(BUILD_DIR) $(DIST_DIR):
+	mkdir -p $@
 
 $(CACHE_FILES) &: $(DATA_FILES)
 	$(PYTHON) src/generate/util/cache
 
 clean: mostlyclean
-	$(RM) -r UTF-8 unicode $(UNICODE_GEN_FILES) $(CACHE_FILES)
+	$(RM) -r $(UNICODE_FILES) $(UNICODE_GEN_FILES) $(CACHE_FILES) $(BUILD_DIR)
 
 mostlyclean:
-	$(RM) -r wcwidth9.h runewidth_table.go tables.rs $(GENERATED_EAW_FILE)
+	$(RM) -r $(DIST_DIR)
 
 .PHONY: all clean mostlyclean

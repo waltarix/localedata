@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import operator
 from functools import lru_cache
-from typing import Optional
+from typing import Callable, Optional
 
 from . import emoji, non_printable, single_width, zero_width
 
@@ -22,11 +23,11 @@ class Char():
     comment: str
     _width: Optional[int] = None
 
-    def __init__(self, code: int, width_prop: str, data_prop: str, comment: str) -> None:
+    def __init__(self, code: int, width_prop: str = None, data_prop: str = None, comment: str = None) -> None:
         self.code = code
-        self.width_prop = width_prop
-        self.data_prop = data_prop
-        self.comment = comment
+        self.width_prop = width_prop or ''
+        self.data_prop = data_prop or ''
+        self.comment = comment or ''
 
     def is_well_known(self) -> bool:
         return self.code < 0x00A0
@@ -71,4 +72,32 @@ class Char():
         return emoji.is_include(self)
 
     def is_mergeable(self, other: Char) -> bool:
-        return self.code + 1 == other.code and self.width == other.width
+        return (self.code + 1 == other.code) and self.width == other.width
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Char):
+            return False
+        return self.code == other.code
+
+    def __ne__(self, other: object) -> bool:
+        return not self == other
+
+    def __lt__(self, other: object) -> bool:
+        return self._compare(operator.lt, other)
+
+    def __le__(self, other: object) -> bool:
+        return self._compare(operator.le, other)
+
+    def __gt__(self, other: object) -> bool:
+        return self._compare(operator.gt, other)
+
+    def __ge__(self, other: object) -> bool:
+        return self._compare(operator.ge, other)
+
+    def _compare(self, operator: Callable, other: object) -> bool:
+        if not isinstance(other, Char):
+            raise TypeError()
+        return operator(self.code, other.code)
+
+    def __hash__(self) -> int:
+        return hash(self.code)
