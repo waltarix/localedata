@@ -1,54 +1,39 @@
 #ifndef WCWIDTH9_H
 #define WCWIDTH9_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-
-struct wcwidth9_interval {
-  long first;
-  long last;
-  int width;
+{% for table in tables -%}
+static const int WCWIDTH9_TABLES_{{ loop.index0 }}[{{ table|length }}] = {
+  {%- for bytes in table|batch(15) %}
+  {{ bytes|join(', ') }},
+  {%- endfor %}
 };
 
-#define WCWIDTH9_TABLE_MAX_INDEX {{ length }}
+{% endfor -%}
 
-static const struct wcwidth9_interval wcwidth9_table[] = {
-{%- for r in ranges %}
-  {{ r }}{{ "," -}}
-{% endfor %}
-};
+static inline int wcwidth9_lookup_width(int c) {
+  int t1_offset = WCWIDTH9_TABLES_0[c >> 13 & 0xFF];
 
-static inline int wcwidth9_width(const struct wcwidth9_interval *table, int top, int c) {
-  int mid, bot;
+  int t2_offset = WCWIDTH9_TABLES_1[128 * t1_offset + (c >> 6 & 0x7F)];
 
-  if (c < table[0].first) {
-    return 1;
-  }
+  int packed_widths = WCWIDTH9_TABLES_2[16 * t2_offset + (c >> 2 & 0xF)];
 
-  bot = 0;
-  while (top >= bot) {
-    mid = (bot + top) / 2;
+  int width = packed_widths >> (2 * (c & 0b11)) & 0b11;
 
-    if (table[mid].last < c) {
-      bot = mid + 1;
-    } else if (table[mid].first > c) {
-      top = mid - 1;
-    } else {
-      return table[mid].width;
-    }
-  }
+  if (width == 3) return -1;
 
-  return 1;
+  return width;
 }
 
 static inline int wcwidth9(int c) {
-  if (c == 0) return 0;
-  if (c < 0x20) return -1;
-  if (c < 0x7F) return 1;
-  if (c < 0xA0) return -1;
-  if (c < 0 || c > 0x10ffff) return -1;
+  if (c < 0x7F) {
+    if (c >= 0x20) return 1;
+    if (c == 0) return 0;
+    return -1;
+  }
 
-  return wcwidth9_width(wcwidth9_table, WCWIDTH9_TABLE_MAX_INDEX, c);
+  if (c >= 0xA0) return wcwidth9_lookup_width(c);
+
+  return -1;
 }
 
 #endif /* WCWIDTH9_H */

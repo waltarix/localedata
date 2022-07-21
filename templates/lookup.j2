@@ -1,0 +1,7 @@
+{% for table in tables %}
+pub static TABLES_{{ loop.index0 }}: [u8; {{ table|length }}] = [
+    {%- for bytes in table|batch(16) %}
+    {{ bytes|join(', ') }},
+    {%- endfor %}
+];
+{% endfor %}

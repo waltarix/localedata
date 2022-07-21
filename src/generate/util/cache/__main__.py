@@ -9,7 +9,7 @@ Cache.prepare()
 pool = Pool(processes=2)
 results = [
     pool.apply_async(Cache.eaw_ranges),
-    pool.apply_async(Cache.wcwidth9_ranges),
+    pool.apply_async(Cache.wcwidth9_tables),
 ]
 
 [res.wait() for res in results]

@@ -9,20 +9,16 @@ from ucd import Widths
 from .char_ranges import CharRanges
 from .match_group import MatchedGroup
 from .pattern import PATTERN
+from .tables import Tables
 
 
-def wcwidth9_ranges():
-    filtered = filter(_wcwidth9_filter, all())
-    return CharRanges.from_chars(list(filtered))
+def wcwidth9_tables():
+    return Tables.from_chars(all())
 
 
 def eaw_ranges():
     filtered = filter(_eaw_filter, all())
     return CharRanges.from_chars(list(filtered))
-
-
-def _wcwidth9_filter(char: Char):
-    return not char.is_well_known()
 
 
 def _eaw_filter(char: Char):

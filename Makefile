@@ -16,8 +16,11 @@ GLIBC_VERSION        := 2.34
 UNICODE_GEN_URL_BASE := https://raw.githubusercontent.com/bminor/glibc/glibc-$(GLIBC_VERSION)/localedata/unicode-gen
 UNICODE_GEN_FILES    := $(addprefix $(BUILD_DIR)/,utf8_gen.py unicode_utils.py)
 
+TABLE_SCRIPT_URL  := https://raw.githubusercontent.com/unicode-rs/unicode-width/c9f8c463c224cbe27737d640dd4f43326810af70/scripts/unicode.py
+TABLE_SCRIPT_FILE := ./src/chars/tables/unicode.py
+
 GENERATED_EAW_FILE := $(DIST_DIR)/EastAsianWidth.txt
-TARGET_FILES       := $(addprefix $(DIST_DIR)/,UTF-8 wcwidth9.h runewidth_table.go tables.rs) $(GENERATED_EAW_FILE)
+TARGET_FILES       := $(addprefix $(DIST_DIR)/,UTF-8 wcwidth9.h runewidth_table.go lookup.rs) $(GENERATED_EAW_FILE)
 
 CACHE_FILES := $(addprefix .cache/, eaw.pickle wcwidth9.pickle)
 
@@ -39,8 +42,8 @@ $(DIST_DIR)/wcwidth9.h: $(UNICODE_FILES) $(CACHE_FILES)
 $(DIST_DIR)/runewidth_table.go: $(UNICODE_FILES) $(CACHE_FILES)
 	$(PYTHON) src/generate/runewidth_table_go > $@
 
-$(DIST_DIR)/tables.rs: $(UNICODE_FILES) $(CACHE_FILES)
-	$(PYTHON) src/generate/tables_rs > $@
+$(DIST_DIR)/lookup.rs: $(UNICODE_FILES) $(CACHE_FILES)
+	$(PYTHON) src/generate/lookup_rs > $@
 
 $(DATA_FILES):
 	$(CURL) -o $@ $(DOWNLOAD_URL_BASE)/$(notdir $@)
@@ -51,13 +54,16 @@ $(EMOJI_FILE):
 $(UNICODE_GEN_FILES): | $(BUILD_DIR)
 	$(CURL) -o $@ $(UNICODE_GEN_URL_BASE)/$(@F)
 
+$(TABLE_SCRIPT_FILE):
+	$(CURL) $(TABLE_SCRIPT_URL) > $@
+
 $(GENERATED_EAW_FILE): $(DATA_FILES) $(CACHE_FILES) | $(BUILD_DIR)
 	$(PYTHON) src/generate/east_asian_width_txt > $@
 
 $(BUILD_DIR) $(DIST_DIR):
 	mkdir -p $@
 
-$(CACHE_FILES) &: $(DATA_FILES)
+$(CACHE_FILES) &: $(DATA_FILES) $(TABLE_SCRIPT_FILE)
 	$(PYTHON) src/generate/util/cache
 
 clean: mostlyclean

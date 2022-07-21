@@ -23,7 +23,13 @@ class Char():
     comment: str
     _width: Optional[int] = None
 
-    def __init__(self, code: int, width_prop: str = None, data_prop: str = None, comment: str = None) -> None:
+    def __init__(
+        self,
+        code: int,
+        width_prop: Optional[str] = None,
+        data_prop: Optional[str] = None,
+        comment: Optional[str] = None
+    ) -> None:
         self.code = code
         self.width_prop = width_prop or ''
         self.data_prop = data_prop or ''

@@ -23,9 +23,9 @@ def test_lt():
     assert char(1) < char(2)
 
     with pytest.raises(TypeError):
-        char(1) < 2
+        assert char(1) < 2
     with pytest.raises(TypeError):
-        1 < char(2)
+        assert 1 < char(2)
 
 
 def test_le():
@@ -34,9 +34,9 @@ def test_le():
     assert char(1) <= char(2)
 
     with pytest.raises(TypeError):
-        char(1) <= 2
+        assert char(1) <= 2
     with pytest.raises(TypeError):
-        1 <= char(2)
+        assert 1 <= char(2)
 
 
 def test_gt():
@@ -45,9 +45,9 @@ def test_gt():
     assert not char(1) > char(2)
 
     with pytest.raises(TypeError):
-        char(1) > 2
+        assert char(1) > 2
     with pytest.raises(TypeError):
-        1 > char(2)
+        assert 1 > char(2)
 
 
 def test_ge():
@@ -56,6 +56,6 @@ def test_ge():
     assert not char(1) >= char(2)
 
     with pytest.raises(TypeError):
-        char(1) >= 2
+        assert char(1) >= 2
     with pytest.raises(TypeError):
-        1 >= char(2)
+        assert 1 >= char(2)

@@ -7,4 +7,6 @@
 /.cache
 /.testmondata
 
+/src/chars/tables/unicode.py
+
 __pycache__

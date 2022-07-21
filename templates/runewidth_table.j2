@@ -1,9 +1,10 @@
 package runewidth
 
-var wcwidth9_table_length = {{ length }}
-
-var wcwidth9_table = table {
-{%- for r in ranges %}
-  {{ r }}{{ "," -}}
-{% endfor %}
+{% for table in tables -%}
+var wcwidth9_tables_{{ loop.index0 }} = [{{ table|length }}]int{
+	{%- for bytes in table|batch(15) %}
+	{{ bytes|join(', ') }},
+	{%- endfor %}
 }
+
+{% endfor %}

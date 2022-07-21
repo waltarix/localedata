@@ -38,9 +38,9 @@ def test_lt():
     assert code_range(1, 3) < code_range(2, 2)
 
     with pytest.raises(TypeError):
-        code_range(0, 1) < 1
+        assert code_range(0, 1) < 1
     with pytest.raises(TypeError):
-        1 < code_range(0, 1)
+        assert 1 < code_range(0, 1)
 
 
 def test_le():
@@ -64,9 +64,9 @@ def test_le():
     assert code_range(1, 3) <= code_range(2, 2)
 
     with pytest.raises(TypeError):
-        code_range(0, 1) <= 1
+        assert code_range(0, 1) <= 1
     with pytest.raises(TypeError):
-        1 <= code_range(0, 1)
+        assert 1 <= code_range(0, 1)
 
 
 def test_gt():
@@ -91,9 +91,9 @@ def test_gt():
     assert not code_range(1, 3) > code_range(2, 3)
 
     with pytest.raises(TypeError):
-        code_range(0, 1) > 1
+        assert code_range(0, 1) > 1
     with pytest.raises(TypeError):
-        1 > code_range(0, 1)
+        assert 1 > code_range(0, 1)
 
 
 def test_ge():
@@ -118,6 +118,6 @@ def test_ge():
     assert not code_range(1, 3) >= code_range(2, 3)
 
     with pytest.raises(TypeError):
-        code_range(0, 1) >= 1
+        assert code_range(0, 1) >= 1
     with pytest.raises(TypeError):
-        1 >= code_range(0, 1)
+        assert 1 >= code_range(0, 1)
