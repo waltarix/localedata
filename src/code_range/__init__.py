@@ -42,7 +42,7 @@ class CodeRange():
         return self.is_include(other.min) or self.is_include(other.max)
 
     def __str__(self) -> str:
-        return '({}, {})'.format(self.min, self.max)
+        return f'({self.min}, {self.max})'
 
     def __repr__(self) -> str:
         return self.__str__()

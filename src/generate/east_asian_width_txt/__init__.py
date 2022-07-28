@@ -9,4 +9,4 @@ def generate(eaw: CharRanges):
 
 
 def _formatter(char: Char):
-    return '{code:04X}'.format(code=char.code)
+    return f'{char.code:04X}'

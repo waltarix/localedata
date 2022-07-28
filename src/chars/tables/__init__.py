@@ -29,7 +29,7 @@ def _make_byte_tables(tables: list[Table]) -> ByteTables:
     for (i, table) in enumerate(tables):
         if i == len(tables) - 1:
             table.indices_to_widths()
-        byte_tables.append(list(map(lambda b: '0x{:02X}'.format(b), table.to_bytes())))
+        byte_tables.append(list(map(lambda b: f'0x{b:02X}', table.to_bytes())))
     return byte_tables
 
 
