@@ -4,7 +4,7 @@ CURL   := curl --progress-bar -L
 BUILD_DIR := build
 DIST_DIR  := dist
 
-UNICODE_VERSION   := 14.0.0
+UNICODE_VERSION   := 15.0.0
 DOWNLOAD_URL_BASE := https://unicode.org/Public/$(UNICODE_VERSION)/ucd
 
 UNICODE_DIR   := unicode
