@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout
@@ -26,9 +26,6 @@ jobs:
 
     - name: Configure poetry
       run: poetry config virtualenvs.in-project true
-
-    - name: Setup GNU Make >= 4.3
-      run: brew install make
 
     - name: poetry install
       run: poetry install --no-dev
