@@ -12,7 +12,7 @@ DATA_FILES    := $(addprefix $(UNICODE_DIR)/, UnicodeData.txt EastAsianWidth.txt
 EMOJI_FILE    := $(UNICODE_DIR)/emoji-data.txt
 UNICODE_FILES := $(DATA_FILES) $(EMOJI_FILE)
 
-GLIBC_VERSION        := 2.34
+GLIBC_VERSION        := 2.36
 UNICODE_GEN_URL_BASE := https://raw.githubusercontent.com/bminor/glibc/glibc-$(GLIBC_VERSION)/localedata/unicode-gen
 UNICODE_GEN_FILES    := $(addprefix $(BUILD_DIR)/,utf8_gen.py unicode_utils.py)
 
