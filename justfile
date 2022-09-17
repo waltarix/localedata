@@ -15,4 +15,4 @@ test-watch:
 	watchexec -p --shell none -e py -w tests -w src -c --on-busy-update=do-nothing -- just test-picked
 
 lint:
-	pyright
+	poetry run pyright
