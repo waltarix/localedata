@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import operator
 from functools import lru_cache
-from typing import Callable, Optional
+from typing import Callable, NotRequired, TypedDict, Unpack
 
 from . import emoji, non_printable, single_width, zero_width
 
@@ -16,24 +16,27 @@ WIDTH_MAP = {
 }
 
 
+class CharArgs(TypedDict):
+    width_prop: NotRequired[str]
+    data_prop: NotRequired[str]
+    comment: NotRequired[str]
+    custom_width: NotRequired[bool]
+
+
 class Char():
     code: int
     width_prop: str
     data_prop: str
     comment: str
-    _width: Optional[int] = None
+    custom_width: bool
+    _width: int | None
 
-    def __init__(
-        self,
-        code: int,
-        width_prop: Optional[str] = None,
-        data_prop: Optional[str] = None,
-        comment: Optional[str] = None
-    ) -> None:
+    def __init__(self, code: int, **kwargs: Unpack[CharArgs]) -> None:
         self.code = code
-        self.width_prop = width_prop or ''
-        self.data_prop = data_prop or ''
-        self.comment = comment or ''
+        self.width_prop = kwargs.get('width_prop', '')
+        self.data_prop = kwargs.get('data_prop', '')
+        self.comment = kwargs.get('comment', '')
+        self.custom_width = kwargs.get('custom_width', False)
 
     def is_well_known(self) -> bool:
         return self.code < 0x00A0
@@ -44,7 +47,9 @@ class Char():
     @property
     @lru_cache
     def width(self) -> int:
-        if self.is_soft_hyphen():
+        if self.custom_width:
+            return WIDTH_MAP[self.width_prop]
+        elif self.is_soft_hyphen():
             return 1
         elif self.is_non_printable():
             return -1

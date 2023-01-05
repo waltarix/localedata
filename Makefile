@@ -16,7 +16,7 @@ GLIBC_VERSION        := 2.36
 UNICODE_GEN_URL_BASE := https://raw.githubusercontent.com/bminor/glibc/glibc-$(GLIBC_VERSION)/localedata/unicode-gen
 UNICODE_GEN_FILES    := $(addprefix $(BUILD_DIR)/,utf8_gen.py unicode_utils.py)
 
-TABLE_SCRIPT_URL  := https://raw.githubusercontent.com/unicode-rs/unicode-width/c9f8c463c224cbe27737d640dd4f43326810af70/scripts/unicode.py
+TABLE_SCRIPT_URL  := https://raw.githubusercontent.com/unicode-rs/unicode-width/v0.1.10/scripts/unicode.py
 TABLE_SCRIPT_FILE := ./src/chars/tables/unicode.py
 
 GENERATED_EAW_FILE := $(DIST_DIR)/EastAsianWidth.txt

@@ -1,7 +1,7 @@
 {
-  "pythonVersion": "3.10",
+  "pythonVersion": "3.11",
   "include": ["src", "tests"],
   "exclude": ["src/chars/tables/unicode.py"],
-  "extraPaths": ["src", ".venv/lib/python3.10/site-packages"],
+  "extraPaths": ["src", ".venv/lib/python3.11/site-packages"],
   "stubPath": ""
 }

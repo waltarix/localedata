@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import cast
 
-from char import Char
+from char import Char, CharArgs
 from ucd import Widths
 
 from .char_ranges import CharRanges
@@ -30,8 +30,8 @@ def _eaw_filter(char: Char):
 @lru_cache
 def all():
     chars: dict[int, Char] = {}
-    for Width in Widths:
-        with Width.open(mode='r') as WD:
+    for ucd in Widths:
+        with ucd.open(mode='r') as WD:
             for line in WD:
                 m = PATTERN.match(line)
                 if m is None:
@@ -39,7 +39,12 @@ def all():
                 mg = cast(MatchedGroup, m.groupdict())
                 min = int(mg['min'], 16)
                 max = int(mg['max'], 16) if mg['max'] else min
-                props = {'width_prop': mg['width_prop'], 'data_prop': mg['data_prop'], 'comment': mg['comment']}
+                props: CharArgs = {
+                    'width_prop': mg['width_prop'],
+                    'data_prop': mg['data_prop'],
+                    'comment': mg['comment'],
+                    'custom_width': ucd.is_custom_width(),
+                }
                 for code in range(min, max + 1):
                     chars[code] = Char(code, **props)
     return sorted(chars.values())
