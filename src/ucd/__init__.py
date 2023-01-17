@@ -20,6 +20,6 @@ class UCDPath(Path):
 
 EmojiData = UCDPath('unicode/emoji-data.txt')
 
-_east_asian_width = UCDPath('unicode/EastAsianWidth.txt')
+EastAsianWidth = UCDPath('unicode/EastAsianWidth.txt')
 _custom_widths = list(UCDPath('unicode/custom_width').glob('*'))
-Widths = [_east_asian_width, *_custom_widths]
+Widths = [EastAsianWidth, *_custom_widths]

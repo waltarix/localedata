@@ -5,7 +5,7 @@ BUILD_DIR := build
 DIST_DIR  := dist
 
 UNICODE_VERSION   := 15.0.0
-DOWNLOAD_URL_BASE := https://unicode.org/Public/$(UNICODE_VERSION)/ucd
+DOWNLOAD_URL_BASE := https://www.unicode.org/Public/$(UNICODE_VERSION)/ucd
 
 UNICODE_DIR   := unicode
 DATA_FILES    := $(addprefix $(UNICODE_DIR)/, UnicodeData.txt EastAsianWidth.txt PropList.txt)
@@ -20,7 +20,13 @@ TABLE_SCRIPT_URL  := https://raw.githubusercontent.com/unicode-rs/unicode-width/
 TABLE_SCRIPT_FILE := ./src/chars/tables/unicode.py
 
 GENERATED_EAW_FILE := $(DIST_DIR)/EastAsianWidth.txt
-TARGET_FILES       := $(addprefix $(DIST_DIR)/,UTF-8 wcwidth9.h runewidth_table.go lookup.rs) $(GENERATED_EAW_FILE)
+TARGET_FILES       := $(addprefix $(DIST_DIR)/, \
+											UTF-8 \
+											wcwidth9.h \
+											wcwidth9.py \
+											runewidth_table.go \
+											lookup.rs \
+											) $(GENERATED_EAW_FILE)
 
 CACHE_FILES := $(addprefix .cache/, eaw.pickle wcwidth9.pickle)
 
@@ -38,6 +44,9 @@ $(DIST_DIR)/UTF-8: $(UNICODE_FILES) $(GENERATED_EAW_FILE) $(UNICODE_GEN_FILES)
 
 $(DIST_DIR)/wcwidth9.h: $(UNICODE_FILES) $(CACHE_FILES)
 	$(PYTHON) src/generate/wcwidth9_h > $@
+
+$(DIST_DIR)/wcwidth9.py: $(UNICODE_FILES) $(CACHE_FILES)
+	$(PYTHON) src/generate/wcwidth9_py > $@
 
 $(DIST_DIR)/runewidth_table.go: $(UNICODE_FILES) $(CACHE_FILES)
 	$(PYTHON) src/generate/runewidth_table_go > $@

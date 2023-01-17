@@ -1,0 +1,17 @@
+{% for table in tables -%}
+wcwidth9_tables_{{ loop.index0 }} = [
+    {%- for bytes in table|batch(15) %}
+    {{ bytes|join(', ') }},
+    {%- endfor %}
+]
+
+{% endfor -%}
+
+def wcwidth9_width(c):
+    t1_offset = wcwidth9_tables_0[c >> 13 & 0xFF]
+    t2_offset = wcwidth9_tables_1[128 * t1_offset + (c >> 6 & 0x7F)]
+    packed_widths = wcwidth9_tables_2[16 * t2_offset + (c >> 2 & 0xF)]
+    width = packed_widths >> (2 * (c & 0b11)) & 0b11
+    if width == 3:
+        return 0
+    return width

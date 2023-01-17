@@ -26,3 +26,6 @@ class CharRange():
 
     def is_mergeable(self, other: Char):
         return self.max.is_mergeable(other)
+
+    def is_range(self):
+        return self.min != self.max
