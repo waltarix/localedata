@@ -109,19 +109,19 @@ files = [
 
 [[package]]
 name = "isort"
-version = "5.11.4"
+version = "5.12.0"
 description = "A Python utility / library to sort Python imports."
 category = "dev"
 optional = false
-python-versions = ">=3.7.0"
+python-versions = ">=3.8.0"
 files = [
-    {file = "isort-5.11.4-py3-none-any.whl", hash = "sha256:c033fd0edb91000a7f09527fe5c75321878f98322a77ddcc81adbd83724afb7b"},
-    {file = "isort-5.11.4.tar.gz", hash = "sha256:6db30c5ded9815d813932c04c2f85a360bcdd35fed496f4d8f35495ef0a261b6"},
+    {file = "isort-5.12.0-py3-none-any.whl", hash = "sha256:f84c2818376e66cf843d497486ea8fed8700b340f308f076c6fb1229dff318b6"},
+    {file = "isort-5.12.0.tar.gz", hash = "sha256:8bef7dde241278824a6d83f44a544709b065191b95b6e50894bdc722fcba0504"},
 ]
 
 [package.extras]
-colors = ["colorama (>=0.4.3,<0.5.0)"]
-pipfile-deprecated-finder = ["pipreqs", "requirementslib"]
+colors = ["colorama (>=0.4.3)"]
+pipfile-deprecated-finder = ["pip-shims (>=0.5.2)", "pipreqs", "requirementslib"]
 plugins = ["setuptools"]
 requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
@@ -238,14 +238,14 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pyright"
-version = "1.1.289"
+version = "1.1.291"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.289-py3-none-any.whl", hash = "sha256:e3d7767b472ea42f99f338936d95964b97327e8d26fe04c45a377d65e83c9412"},
-    {file = "pyright-1.1.289.tar.gz", hash = "sha256:33426683d1e59a0a29247bec629deac07fb6302f916905f25e0487f964767d94"},
+    {file = "pyright-1.1.291-py3-none-any.whl", hash = "sha256:2dbd133ee400e81ff319d0701bc47545a7ab1cd7dcfcf46c7de37d9b0fbbb76f"},
+    {file = "pyright-1.1.291.tar.gz", hash = "sha256:3946f43f1a99f8e438eee1738ad0649d8bd7ac36dded25849245993ab02671bd"},
 ]
 
 [package.dependencies]
@@ -294,13 +294,13 @@ pytest = ">=3.5.0"
 
 [[package]]
 name = "pytest-testmon"
-version = "1.4.3"
+version = "1.4.5"
 description = "selects tests affected by changed files and methods"
 category = "dev"
 optional = false
 python-versions = "<3.12,>=3.7"
 files = [
-    {file = "pytest_testmon-1.4.3-py3-none-any.whl", hash = "sha256:d80836529c615681e06976dcdb5fc92b07778e0d9ed2104d82757c7de2ac4249"},
+    {file = "pytest_testmon-1.4.5-py3-none-any.whl", hash = "sha256:313424d868c0924596f710d49506c554dce78be85b96553a433141626e870ef1"},
 ]
 
 [package.dependencies]
@@ -351,4 +351,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "9a89f6fff4093d54a2996325a83e756a861bb548540647b14391b6428e9ceb55"
+content-hash = "0b852ba9b4a036d2cdffaf71cf872c65d6f744ca331095938741eeaee0da77f7"
