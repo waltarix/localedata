@@ -1,7 +1,10 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/pyright/1.1.291/packages/vscode-pyright/schemas/pyrightconfig.schema.json",
+
+  "venvPath": ".",
+  "venv": ".venv",
+
   "pythonVersion": "3.11",
   "include": ["src", "tests"],
-  "exclude": ["src/chars/tables/unicode.py"],
-  "extraPaths": ["src", ".venv/lib/python3.11/site-packages"],
-  "stubPath": ""
+  "exclude": ["src/chars/tables/unicode.py"]
 }
