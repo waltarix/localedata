@@ -1,7 +1,7 @@
 from linecache import getline
 
 from char import Char
-from chars import CharRanges
+from chars.char_ranges import CharRanges
 from chars.char_ranges.char_range import CharRange
 from ucd import EastAsianWidth
 

@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 from code_range import CodeRange
-from code_ranges import CodeRange
 
 
 class EmojiRange(CodeRange):

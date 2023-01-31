@@ -2,7 +2,8 @@ import pickle
 from pathlib import Path
 from typing import Callable, TypeVar
 
-from chars import CharRanges, eaw_ranges, wcwidth9_tables
+from chars import eaw_ranges, wcwidth9_tables
+from chars.char_ranges import CharRanges
 from chars.tables import ByteTables
 
 T = TypeVar('T')
