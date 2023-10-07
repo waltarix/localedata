@@ -8,7 +8,9 @@ PATTERN = re.compile(
           \.\.
           (?P<max>[0-9A-F]{4,6})
         )?
+        \s+
         ;
+        \s+
         (?P<width_prop>[^ ]+)
         \s+
         \#
