@@ -5,7 +5,7 @@ description = ""
 authors = ["nobody <nobody@nowhere>"]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = ">=3.12,<3.13"
 Jinja2 = "^3.1.2"
 
 [tool.poetry.group.dev.dependencies]

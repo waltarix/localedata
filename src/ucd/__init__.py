@@ -1,5 +1,6 @@
 import os
 import pathlib
+import sys
 from functools import lru_cache
 from pathlib import Path
 from typing import Self
@@ -7,7 +8,8 @@ from typing import Self
 
 class UCDPath(Path):
     # cf. https://github.com/python/cpython/pull/31691
-    _flavour = pathlib._windows_flavour if os.name == 'nt' else pathlib._posix_flavour  # type: ignore
+    if sys.version_info < (3, 12):
+        _flavour = pathlib._windows_flavour if os.name == 'nt' else pathlib._posix_flavour  # type: ignore
 
     def __new__(cls: type[Self], *args) -> Self:
         self = super().__new__(cls, *args)

@@ -3,40 +3,40 @@ name: Release
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
-      - '[0-9]+.[0-9]+.[0-9]+-r[0-9]+'
+      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+-r[0-9]+"
 
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
 
-    - name: Setup poetry
-      run: |
-        curl -sL https://install.python-poetry.org | python3
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Setup poetry
+        run: |
+          curl -sL https://install.python-poetry.org | python3
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
+      - name: Configure poetry
+        run: poetry config virtualenvs.in-project true
 
-    - name: poetry install
-      run: poetry install --no-dev
+      - name: poetry install
+        run: poetry install --no-dev
 
-    - name: Build
-      run: make -j
+      - name: Build
+        run: make -j
 
-    - name: Compress UTF-8
-      run: xz -9 dist/UTF-8
+      - name: Compress UTF-8
+        run: xz -9 dist/UTF-8
 
-    - name: Release
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: dist/*
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: dist/*
