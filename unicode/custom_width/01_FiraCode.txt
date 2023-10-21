@@ -1,3 +1,3 @@
 # vim: ft=conf
 
-EE00..EE0B;H # Progress bar elements
+EE00..EE0B ; H # Progress bar elements

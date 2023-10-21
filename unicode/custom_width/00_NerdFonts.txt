@@ -1,14 +1,14 @@
 # vim: ft=conf
 
-E0A0..E0A2;H # Powerline Symbols
-E0B0..E0B3;H # Powerline Symbols
+E0A0..E0A2 ; H # Powerline Symbols
+E0B0..E0B3 ; H # Powerline Symbols
 
-E0A3;H       # Powerline Extra Symbols
-E0B4..E0BF;H # Powerline Extra Symbols
-E0C0..E0C8;F # Powerline Extra Symbols
-E0CA..E0CA;F # Powerline Extra Symbols
-E0CC..E0D1;F # Powerline Extra Symbols
-E0D2;F       # Powerline Extra Symbols
-E0D4;F       # Powerline Extra Symbols
+E0A3 ; H       # Powerline Extra Symbols
+E0B4..E0BF ; H # Powerline Extra Symbols
+E0C0..E0C8 ; F # Powerline Extra Symbols
+E0CA..E0CA ; F # Powerline Extra Symbols
+E0CC..E0D1 ; F # Powerline Extra Symbols
+E0D2 ; F       # Powerline Extra Symbols
+E0D4 ; F       # Powerline Extra Symbols
 
-23FB..23FE;F # Power Symbols
+23FB..23FE ; F # Power Symbols
