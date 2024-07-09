@@ -1,7 +1,8 @@
-{% for table in tables %}
-pub static TABLES_{{ loop.index0 }}: [u8; {{ table|length }}] = [
+use super::align::{Align128, Align16};
+{% for table in tables %}{% set align = 16 if loop.index0 + 1 == tables|length else 128 %}
+pub static TABLES_{{ loop.index0 }}: Align{{align}}<[u8; {{ table|length }}]> = Align{{align}}([
     {%- for bytes in table|batch(16) %}
     {{ bytes|join(', ') }},
     {%- endfor %}
-];
+]);
 {% endfor %}
