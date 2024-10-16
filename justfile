@@ -1,3 +1,5 @@
+export PYTHONPATH := 'src'
+
 @_list:
 	just -l
 

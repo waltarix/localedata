@@ -1,10 +1,10 @@
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/pyright/1.1.291/packages/vscode-pyright/schemas/pyrightconfig.schema.json",
+  "$schema": "https://raw.githubusercontent.com/microsoft/pyright/1.1.384/packages/vscode-pyright/schemas/pyrightconfig.schema.json",
 
   "venvPath": ".",
   "venv": ".venv",
 
-  "pythonVersion": "3.12",
+  "pythonVersion": "3.13",
   "include": ["src", "tests"],
   "exclude": ["src/chars/tables/unicode.py"]
 }

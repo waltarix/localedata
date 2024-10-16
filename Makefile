@@ -1,3 +1,5 @@
+export PYTHONPATH := src
+
 PYTHON := poetry run python
 CURL   := curl --progress-bar -L
 
@@ -45,16 +47,16 @@ $(DIST_DIR)/UTF-8: $(UNICODE_FILES) $(GENERATED_EAW_FILE) $(UNICODE_GEN_FILES)
 	mv $(@F) $@
 
 $(DIST_DIR)/wcwidth9.h: $(UNICODE_FILES) $(CACHE_FILES)
-	$(PYTHON) src/generate/wcwidth9_h > $@
+	$(PYTHON) -m generate.wcwidth9_h > $@
 
 $(DIST_DIR)/wcwidth9.py: $(UNICODE_FILES) $(CACHE_FILES)
-	$(PYTHON) src/generate/wcwidth9_py > $@
+	$(PYTHON) -m generate.wcwidth9_py > $@
 
 $(DIST_DIR)/runewidth_table.go: $(UNICODE_FILES) $(CACHE_FILES)
-	$(PYTHON) src/generate/runewidth_table_go > $@
+	$(PYTHON) -m generate.runewidth_table_go > $@
 
 $(DIST_DIR)/lookup.rs: $(UNICODE_FILES) $(CACHE_FILES)
-	$(PYTHON) src/generate/lookup_rs > $@
+	$(PYTHON) -m generate.lookup_rs > $@
 
 $(DATA_FILES):
 	$(CURL) -o $@ $(DOWNLOAD_URL_BASE)/$(notdir $@)
@@ -69,13 +71,13 @@ $(TABLE_SCRIPT_FILE):
 	$(CURL) $(TABLE_SCRIPT_URL) > $@
 
 $(GENERATED_EAW_FILE): $(DATA_FILES) $(CACHE_FILES) | $(BUILD_DIR)
-	$(PYTHON) src/generate/east_asian_width_txt > $@
+	$(PYTHON) -m generate.east_asian_width_txt > $@
 
 $(BUILD_DIR) $(DIST_DIR):
 	mkdir -p $@
 
 $(CACHE_FILES) &: $(DATA_FILES) $(TABLE_SCRIPT_FILE)
-	$(PYTHON) src/generate/util/cache
+	$(PYTHON) -m generate.util.cache
 
 clean: mostlyclean
 	$(RM) -r $(UNICODE_FILES) $(UNICODE_GEN_FILES) $(CACHE_FILES) $(BUILD_DIR)
