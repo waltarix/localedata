@@ -3,7 +3,7 @@ from chars import all as all_chars, eaw_ranges
 
 def test_eaw_ranges():
     ranges = eaw_ranges()
-    assert ranges.length == 246
+    assert ranges.length == 248
 
 
 def has_custom_width(min: int, max: int):
