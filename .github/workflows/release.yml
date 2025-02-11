@@ -28,7 +28,7 @@ jobs:
         run: poetry config virtualenvs.in-project true
 
       - name: poetry install
-        run: poetry install --no-dev
+        run: poetry install --without=dev
 
       - name: Build
         run: make -j
