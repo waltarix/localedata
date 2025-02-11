@@ -1,4 +1,9 @@
-from generate.east_asian_width_txt import generate
+from os import environ
+
+from generate.east_asian_width_txt import generate, generate_derived
 from generate.util.cache import Cache
 
-generate(Cache.eaw_ranges())
+if environ.get('AS_DERIVED', None):
+    generate_derived(Cache.eaw_ranges())
+else:
+    generate(Cache.eaw_ranges())

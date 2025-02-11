@@ -1,0 +1,9 @@
+# East_Asian_Width=Neutral
+# East_Asian_Width=Ambiguous
+# East_Asian_Width=Halfwidth
+# East_Asian_Width=Wide
+{%- for range, number_of_items, comment in values %}
+{{range}} # Lo {{number_of_items}} {{comment}}
+{%- endfor %}
+# East_Asian_Width=Fullwidth
+# East_Asian_Width=Narrow

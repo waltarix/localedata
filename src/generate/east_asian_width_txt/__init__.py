@@ -20,6 +20,11 @@ def generate(eaw: CharRanges):
     )
 
 
+def generate_derived(eaw: CharRanges):
+    template = get_template('DerivedEastAsianWidth.txt.j2')
+    print(template.render(values=map(_to_values, eaw.ranges)))
+
+
 def _to_hex(char: Char):
     return f'{char.code:04X}'
 

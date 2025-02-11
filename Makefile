@@ -22,14 +22,15 @@ UNICODE_WIDTH_VERSION := 0.1.13
 TABLE_SCRIPT_URL      := https://raw.githubusercontent.com/unicode-rs/unicode-width/v$(UNICODE_WIDTH_VERSION)/scripts/unicode.py
 TABLE_SCRIPT_FILE     := ./src/chars/tables/unicode.py
 
-GENERATED_EAW_FILE := $(DIST_DIR)/EastAsianWidth.txt
-TARGET_FILES       := $(addprefix $(DIST_DIR)/, \
-											UTF-8 \
-											wcwidth9.h \
-											wcwidth9.py \
-											runewidth_table.go \
-											lookup.rs \
-											) $(GENERATED_EAW_FILE)
+GENERATED_EAW_FILE  := $(DIST_DIR)/EastAsianWidth.txt
+GENERATED_DEAW_FILE := $(DIST_DIR)/DerivedEastAsianWidth.txt
+TARGET_FILES        := $(addprefix $(DIST_DIR)/, \
+												UTF-8 \
+												wcwidth9.h \
+												wcwidth9.py \
+												runewidth_table.go \
+												lookup.rs \
+												) $(GENERATED_EAW_FILE) $(GENERATED_DEAW_FILE)
 
 CACHE_FILES := $(addprefix .cache/, eaw.pickle wcwidth9.pickle)
 
@@ -73,6 +74,9 @@ $(TABLE_SCRIPT_FILE):
 $(GENERATED_EAW_FILE): $(DATA_FILES) $(CACHE_FILES) | $(BUILD_DIR)
 	$(PYTHON) -m generate.east_asian_width_txt > $@
 
+$(GENERATED_DEAW_FILE): $(DATA_FILES) $(CACHE_FILES) | $(BUILD_DIR)
+	AS_DERIVED=1 $(PYTHON) -m generate.east_asian_width_txt > $@
+
 $(BUILD_DIR) $(DIST_DIR):
 	mkdir -p $@
 
@@ -80,7 +84,7 @@ $(CACHE_FILES) &: $(DATA_FILES) $(TABLE_SCRIPT_FILE)
 	$(PYTHON) -m generate.util.cache
 
 clean: mostlyclean
-	$(RM) -r $(UNICODE_FILES) $(UNICODE_GEN_FILES) $(CACHE_FILES) $(BUILD_DIR)
+	$(RM) -r $(UNICODE_FILES) $(UNICODE_GEN_FILES) $(TABLE_SCRIPT_FILE) $(CACHE_FILES) $(BUILD_DIR)
 
 mostlyclean:
 	$(RM) -r $(DIST_DIR)
