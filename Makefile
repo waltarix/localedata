@@ -1,6 +1,6 @@
 export PYTHONPATH := src
 
-PYTHON := poetry run python
+PYTHON := uv run python
 CURL   := curl --progress-bar -L
 
 BUILD_DIR := build

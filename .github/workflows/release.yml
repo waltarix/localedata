@@ -19,16 +19,11 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Setup poetry
-        run: |
-          curl -sL https://install.python-poetry.org | python3
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
 
-      - name: Configure poetry
-        run: poetry config virtualenvs.in-project true
-
-      - name: poetry install
-        run: poetry install --without=dev
+      - name: Install dependencies
+        run: uv sync --no-dev
 
       - name: Build
         run: make -j
