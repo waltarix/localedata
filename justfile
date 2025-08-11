@@ -19,13 +19,17 @@ test-watch:
 lint:
 	uv run pyright
 
-poetry-update:
-	poetry add $(just _poetry-dependencies | just _poetry-util-to-latest)
-	poetry add -G dev $(just _poetry-dev-dependencies | just _poetry-util-to-latest)
-@_poetry-dependencies:
+uv-update:
+	# uv add $(just _uv-dependencies | just _uv-util-to-latest)
+	uv add --dev -U $(just _uv-dev-dependencies | jq -r '.[]')
+@_uv-dependencies:
 	dasel -wjson -f pyproject.toml \
-		| jq -r '.tool.poetry.dependencies | to_entries | map(select(.key != "python")) | from_entries'
-@_poetry-dev-dependencies:
-	dasel -wjson -f pyproject.toml | jq -r '.tool.poetry.group.dev.dependencies'
-@_poetry-util-to-latest:
-	jq -r 'keys | map(. + "@latest") | .[]'
+		| jq -r '.tool.uv["dependencies"] | map(split("[=<>]"; null) | first)'
+# @_uv-dependencies:
+# 	dasel -wjson -f pyproject.toml \
+# 		| jq -r '.tool.uv["dev-dependencies"][]' | choose -f '[=<>]' 1 | jq -R add
+@_uv-dev-dependencies:
+	dasel -wjson -f pyproject.toml \
+		| jq -r '.tool.uv["dev-dependencies"] | map(split("[=<>]"; null) | first)'
+@_uv-util-to-latest:
+	jq -r 'map(. + "@latest") | .[]'
