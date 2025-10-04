@@ -6,7 +6,7 @@ CURL   := curl --progress-bar -L
 BUILD_DIR := build
 DIST_DIR  := dist
 
-UNICODE_VERSION   := 16.0.0
+UNICODE_VERSION   := 17.0.0
 DOWNLOAD_URL_BASE := https://www.unicode.org/Public/$(UNICODE_VERSION)/ucd
 
 UNICODE_DIR   := unicode
@@ -14,7 +14,7 @@ DATA_FILES    := $(addprefix $(UNICODE_DIR)/, UnicodeData.txt EastAsianWidth.txt
 EMOJI_FILE    := $(UNICODE_DIR)/emoji-data.txt
 UNICODE_FILES := $(DATA_FILES) $(EMOJI_FILE)
 
-GLIBC_VERSION        := 2.41
+GLIBC_VERSION        := 2.42
 UNICODE_GEN_URL_BASE := https://raw.githubusercontent.com/bminor/glibc/glibc-$(GLIBC_VERSION)/localedata/unicode-gen
 UNICODE_GEN_FILES    := $(addprefix $(BUILD_DIR)/,utf8_gen.py unicode_utils.py)
 
